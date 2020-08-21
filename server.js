@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
+const cors = require("cors");
 
 const WilderModel = require("./models/Wilder");
 const wilderController = require("./controllers/wilder");
@@ -21,6 +22,7 @@ mongoose
 //Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.get("/", (req, res) => {
@@ -40,4 +42,4 @@ app.use((error, req, res, next) => {
 });
 
 //Start Server
-app.listen(3000, () => console.log("Server started on 3000"));
+app.listen(5000, () => console.log("Server started on 5000"));
