@@ -2,5 +2,5 @@ DELETE http://localhost:5000/api/wilders HTTP/1.1
 content-type: application/json
 
 {
-    "_id": "5f340656dea1ce62e3f18b35"
+    "_id": "60787a9de7202a9e96e7f5e3"
 }

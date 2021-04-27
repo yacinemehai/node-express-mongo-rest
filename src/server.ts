@@ -1,10 +1,9 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const asyncHandler = require("express-async-handler");
-const cors = require("cors");
+import express, {Request, Response, NextFunction} from "express";
+import mongoose from "mongoose";
+import asyncHandler from "express-async-handler";
+import cors from "cors";
 
-const WilderModel = require("./models/Wilder");
-const wilderController = require("./controllers/wilder");
+import wilderController from "./controllers/wilder";
 
 const app = express();
 
@@ -17,7 +16,7 @@ mongoose
     autoIndex: true,
   })
   .then(() => console.log("Connected to database"))
-  .catch((err) => console.log(err));
+  .catch((err:Error) => console.log(err));
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -25,21 +24,21 @@ app.use(express.json());
 app.use(cors());
 
 //Routes
-app.get("/", (req, res) => {
+app.get("/", (req:Request, res:Response) => {
   res.send("Hello World");
 });
 
 app.post("/api/wilders", asyncHandler(wilderController.create));
 app.get("/api/wilders", asyncHandler(wilderController.read));
 app.put("/api/wilders", asyncHandler(wilderController.update));
-app.delete("/api/wilders", asyncHandler(wilderController.delete));
+app.delete("/api/wilders/:id", asyncHandler(wilderController.delete));
 
-app.get("*", (req, res) => {
+app.get("*", (req:Request, res:Response) => {
   res.status(404);
   res.send({ success: false, message: "Wrong adress" });
 });
 
-app.use((error, req, res, next) => {
+app.use((error:any, req:Request, res:Response, next:NextFunction) => {
   if (error.name === "MongoError" && error.code === 11000) {
     res.status(400);
     res.json({ success: false, message: "The name is already used" });
